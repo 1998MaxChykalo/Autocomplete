@@ -1,39 +1,16 @@
-import { Autocomplete, Option } from "./Autocomplete";
-
-const fetchOptions = (val: string) =>
-  new Promise<Option<string>[]>((res) => {
-    setTimeout(() => {
-      res([
-        {
-          label: "new",
-          value: "new",
-        },
-        {
-          label: "old",
-          value: "old",
-        },
-        {
-          label: "laptop",
-          value: "macBook",
-        },
-        {
-          label: "tablet",
-          value: "iPad",
-        },
-        {
-          label: "mobile",
-          value: "iPhone",
-        },
-      ].filter((option) =>
-        option.label.toLocaleLowerCase().includes(val.toLocaleLowerCase())
-      ));
-    }, 300);
-  });
+import { Autocomplete } from "./Autocomplete";
+import { fetchCountriesOptions } from "./fetchCountriesOptions";
 
 function App() {
   return (
     <div className="App">
-      <Autocomplete getOptions={fetchOptions} onSelect={console.log} />
+      <Autocomplete
+        placeholder="Select Country"
+        getOptions={fetchCountriesOptions}
+        onSelect={(country) => {
+          alert(`Selected country: ${country?.label}`);
+        }}
+      />
     </div>
   );
 }

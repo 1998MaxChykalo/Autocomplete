@@ -1,11 +1,8 @@
-import {
-  ChangeEventHandler,
-  useCallback, useMemo, useState
-} from "react";
+import { ChangeEventHandler, useCallback, useMemo, useState } from "react";
 import { useFetchData } from "./useFetchData";
 import { useDebouncedFn } from "./useDebouncedFn";
 
-export type Option<T> = {
+export type Option<T = string> = {
   label: string;
   value: T;
 };
@@ -16,35 +13,45 @@ const autocompleteInitialState = {
   inputValue: "",
 };
 
-const useDebouncedFetch = <TRes extends unknown>(fetchFn: () => Promise<TRes>) => {
+const useDebouncedFetch = <TRes extends unknown>(
+  fetchFn: () => Promise<TRes>
+) => {
   const debouncedFetch = useDebouncedFn(fetchFn);
-  return useFetchData(debouncedFetch)
-}
+  return useFetchData(debouncedFetch);
+};
 
-const getSelectedOptionIndex = (options: Option<unknown>[] | null, selectedOption: Option<unknown> | null) => 
-options?.findIndex((opt) => opt.label === selectedOption?.label) ?? -1
+const getSelectedOptionIndex = (
+  options: Option<unknown>[] | null,
+  selectedOption: Option<unknown> | null
+) => options?.findIndex((opt) => opt.label === selectedOption?.label) ?? -1;
 
 export const useAutocomplete = <TVal extends unknown>(
   getOptions: (inputValue: string) => Promise<Option<TVal>[]>
 ) => {
-  const [autocompleteState, setAutocompleteState] = useState(autocompleteInitialState);
+  const [autocompleteState, setAutocompleteState] = useState(
+    autocompleteInitialState
+  );
 
   const fetchOptions = useCallback(
     () => getOptions(autocompleteState.inputValue),
     [getOptions, autocompleteState.inputValue]
   );
-  const { data: options, isLoading: isOptionsLoading } = useDebouncedFetch(fetchOptions);
+  const { data: options, isLoading: isOptionsLoading } =
+    useDebouncedFetch(fetchOptions);
   const [selectedOption, setSelectedOption] = useState<Option<TVal> | null>(
     null
   );
 
-  const onChange: ChangeEventHandler<HTMLInputElement> = useCallback((e) => {
-    setAutocompleteState({
-      isOpened: true,
-      activeIndex: getSelectedOptionIndex(options, selectedOption),
-      inputValue: e.target.value,
-    });
-  }, [options, selectedOption]);
+  const onChange: ChangeEventHandler<HTMLInputElement> = useCallback(
+    (e) => {
+      setAutocompleteState({
+        isOpened: true,
+        activeIndex: getSelectedOptionIndex(options, selectedOption),
+        inputValue: e.target.value,
+      });
+    },
+    [options, selectedOption]
+  );
 
   const closeAutocomplete = useCallback(
     () => setAutocompleteState(autocompleteInitialState),
@@ -75,9 +82,10 @@ export const useAutocomplete = <TVal extends unknown>(
             event.preventDefault();
             setAutocompleteState((prev) => ({
               ...prev,
-              activeIndex: prev.activeIndex > 0
-                ? prev.activeIndex - 1
-                : options.length - 1,
+              activeIndex:
+                prev.activeIndex > 0
+                  ? prev.activeIndex - 1
+                  : options.length - 1,
             }));
             break;
           case "ArrowDown":
@@ -85,9 +93,10 @@ export const useAutocomplete = <TVal extends unknown>(
             setAutocompleteState((prev) => {
               return {
                 ...prev,
-                activeIndex: prev.activeIndex < options.length - 1
-                  ? prev.activeIndex + 1
-                  : 0,
+                activeIndex:
+                  prev.activeIndex < options.length - 1
+                    ? prev.activeIndex + 1
+                    : 0,
               };
             });
             break;

@@ -37,6 +37,8 @@
   pointer-events: none;
   user-select: none;
   transition: 0.2s;
+  max-height: 300px;
+  overflow-y: auto;
 }
 
 .autocomplete--opened {
@@ -52,7 +54,8 @@
 }
 
 .option--selected,
-.option:hover {
+.option:hover,
+.option:focus {
   background-color: aliceblue;
 }
 .input-container {

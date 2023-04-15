@@ -1,7 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
-
-export const useFetchData = <TRes extends unknown>(fetchFn: () => Promise<TRes>) => {
+export const useFetchData = <TRes extends unknown>(
+  fetchFn: () => Promise<TRes>
+) => {
   const [data, setData] = useState<TRes | null>(null);
   const [isLoading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -30,4 +31,4 @@ export const useFetchData = <TRes extends unknown>(fetchFn: () => Promise<TRes>)
   }, [fetchFn]);
 
   return { data, isLoading, error };
-}
+};

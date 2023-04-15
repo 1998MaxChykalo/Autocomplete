@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
-export const useDebouncedFn = <T extends unknown>(fn: () => T, delay = 300)=> {
+export const useDebouncedFn = <T extends unknown>(fn: () => T, delay = 300) => {
   const [debouncedFn, setDebouncedFn] = useState(() => fn);
 
   useEffect(() => {
@@ -12,4 +12,4 @@ export const useDebouncedFn = <T extends unknown>(fn: () => T, delay = 300)=> {
   }, [fn, delay]);
 
   return debouncedFn;
-}
+};

@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef } from "react";
 
 export const useUpdateEffect = (effect: () => void, deps: unknown[] = []) => {
   const isFirstRender = useRef(true);
@@ -9,6 +9,6 @@ export const useUpdateEffect = (effect: () => void, deps: unknown[] = []) => {
     } else {
       effect();
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [deps]);
-}
+};

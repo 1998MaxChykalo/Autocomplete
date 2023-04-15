@@ -8,11 +8,13 @@ import "./Autocomplete.css";
 type CustomSelectProps<T> = {
   getOptions: (value: string) => Promise<Option<T>[]>;
   onSelect: (option: Option<T> | null) => void;
+  placeholder: string;
 };
 
 export const Autocomplete = <TVal extends unknown>({
   getOptions,
   onSelect,
+  placeholder,
 }: CustomSelectProps<TVal>) => {
   const {
     autocompleteState,
@@ -29,13 +31,16 @@ export const Autocomplete = <TVal extends unknown>({
   const autocompleteContainerRef = useRef<HTMLDivElement>(null);
   useClickOutside(autocompleteContainerRef, () => {
     debugger;
-    closeAutocomplete()});
+    closeAutocomplete();
+  });
 
   return (
     <div className="autocomplete-container" ref={autocompleteContainerRef}>
       <div
         className="input-container"
-        onClick={autocompleteState.isOpened ? closeAutocomplete : openAutocomplete}
+        onClick={
+          autocompleteState.isOpened ? closeAutocomplete : openAutocomplete
+        }
       >
         <input
           className="input"
@@ -50,7 +55,7 @@ export const Autocomplete = <TVal extends unknown>({
               autocompleteState.isOpened ? " selected-value--opened" : ""
             }`}
           >
-            {selectedOption?.label ?? 'Select value'}
+            {selectedOption?.label ?? placeholder}
           </span>
         ) : null}
       </div>
@@ -79,9 +84,7 @@ export const Autocomplete = <TVal extends unknown>({
             </div>
           ))
         ) : (
-          <div className="no-data-container">
-            No Data
-          </div>
+          <div className="no-data-container">No Data</div>
         )}
       </div>
     </div>
