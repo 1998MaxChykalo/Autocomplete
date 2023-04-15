@@ -1,0 +1,91 @@
+.autocomplete-container {
+  position: relative;
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+}
+
+@keyframes spin {
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+.spinner-container {
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 75px;
+}
+
+.spinner {
+  animation: spin 2s linear infinite;
+}
+
+.autocomplete {
+  position: absolute;
+  top: calc(100% + 4px);
+  border: 1px solid gainsboro;
+  border-radius: 8px;
+  overflow: hidden;
+  left: 0;
+  right: 0;
+  opacity: 0;
+  pointer-events: none;
+  user-select: none;
+  transition: 0.2s;
+}
+
+.autocomplete--opened {
+  opacity: 1;
+  pointer-events: auto;
+  user-select: auto;
+}
+
+.option {
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.option--selected,
+.option:hover {
+  background-color: aliceblue;
+}
+.input-container {
+  display: flex;
+  position: relative;
+}
+
+.selected-value {
+  position: absolute;
+  font-family: "Courier New", Courier, monospace;
+  pointer-events: none;
+  user-select: none;
+  left: 0;
+  right: 0;
+}
+.selected-value--opened {
+  opacity: 0.5;
+}
+
+.selected-value,
+.input {
+  flex: 1;
+  padding: 4px 8px;
+  border-width: 1px;
+  font-size: 16px;
+  border: 1px solid gainsboro;
+  font-family: "Courier New", Courier, monospace;
+  border-radius: 4px;
+}
+
+.no-data-container {
+  height: 75px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

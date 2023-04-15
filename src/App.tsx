@@ -1,24 +1,39 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Autocomplete, Option } from "./Autocomplete";
+
+const fetchOptions = (val: string) =>
+  new Promise<Option<string>[]>((res) => {
+    setTimeout(() => {
+      res([
+        {
+          label: "new",
+          value: "new",
+        },
+        {
+          label: "old",
+          value: "old",
+        },
+        {
+          label: "laptop",
+          value: "macBook",
+        },
+        {
+          label: "tablet",
+          value: "iPad",
+        },
+        {
+          label: "mobile",
+          value: "iPhone",
+        },
+      ].filter((option) =>
+        option.label.toLocaleLowerCase().includes(val.toLocaleLowerCase())
+      ));
+    }, 300);
+  });
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Autocomplete getOptions={fetchOptions} onSelect={console.log} />
     </div>
   );
 }
